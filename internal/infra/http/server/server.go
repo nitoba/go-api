@@ -7,6 +7,6 @@ import (
 
 func Setup() *gin.Engine {
 	r := gin.Default()
-	routes.UsersRouter(r)
+	routes.AuthRouter(r)
 	return r
 }

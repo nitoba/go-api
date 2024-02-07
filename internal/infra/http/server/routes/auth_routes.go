@@ -9,15 +9,15 @@ import (
 	"github.com/nitoba/go-api/internal/infra/http/controllers"
 )
 
-func UsersRouter(app *gin.Engine) {
+func AuthRouter(app *gin.Engine) {
 	db := gorm.GetDB()
 	bcryptHasher := cryptography.CreateBCryptHasher()
 	userRepository := repositories.NewUserRepository(db)
 	registerUserUseCase := usecases.CreateRegisterUseCase(userRepository, bcryptHasher)
 	registerUserController := controllers.CreateRegisterUserController(registerUserUseCase)
 
-	router := app.Group("/users")
+	router := app.Group("/auth")
 	{
-		router.POST("/", registerUserController.Handle)
+		router.POST("/register", registerUserController.Handle)
 	}
 }
