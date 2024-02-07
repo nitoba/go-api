@@ -10,42 +10,42 @@ import (
 	"github.com/nitoba/go-api/internal/infra/http/validations"
 )
 
-type RegisterUserController struct {
-	useCase *usecases.RegisterUseCase
+type AuthenticateUserController struct {
+	useCase *usecases.AuthenticateUseCase
 }
 
-type RegisterUserRequest struct {
-	Name     string `json:"name" validate:"required|min_len:6" message:"required:{field} is required" label:"User Name"`
+type AuthenticateUserRequest struct {
 	Email    string `json:"email" validate:"email" message:"email is invalid" label:"User Email"`
 	Password string `json:"password" validate:"required|min_len:6" message:"required:{field} is required" label:"Password"`
 }
 
-func (r *RegisterUserController) Handle(c *gin.Context) {
-	var body RegisterUserRequest
+func (r *AuthenticateUserController) Handle(c *gin.Context) {
+	var body AuthenticateUserRequest
 	c.Bind(&body)
 
 	if !validations.SendBadRequestValidation(body, c) {
 		return
 	}
 
-	err := r.useCase.Execute(usecases.RegisterUseCaseRequest{
-		Name:     body.Name,
+	resp, err := r.useCase.Execute(usecases.AuthenticateUseCaseRequest{
 		Email:    body.Email,
 		Password: body.Password,
 	})
 
-	if errors.Is(err, usecases_errors.ErrUserAlreadyRegistered) {
+	if errors.Is(err, usecases_errors.ErrWrongCredentials) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
 		return
 	}
 
-	c.Status(http.StatusCreated)
+	c.JSON(http.StatusOK, gin.H{
+		"access_token": resp.Token,
+	})
 }
 
-func CreateRegisterUserController(useCase *usecases.RegisterUseCase) *RegisterUserController {
-	return &RegisterUserController{
+func NewAuthenticateUserController(useCase *usecases.AuthenticateUseCase) *AuthenticateUserController {
+	return &AuthenticateUserController{
 		useCase: useCase,
 	}
 }

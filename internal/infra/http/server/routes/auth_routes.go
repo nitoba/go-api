@@ -11,13 +11,19 @@ import (
 
 func AuthRouter(app *gin.Engine) {
 	db := gorm.GetDB()
+	jwtEncrypter := cryptography.NewJWTEncrypter()
 	bcryptHasher := cryptography.CreateBCryptHasher()
 	userRepository := repositories.NewUserRepository(db)
+
 	registerUserUseCase := usecases.CreateRegisterUseCase(userRepository, bcryptHasher)
+	authenticateUserUseCase := usecases.NewAuthenticate(userRepository, bcryptHasher, jwtEncrypter)
+
 	registerUserController := controllers.CreateRegisterUserController(registerUserUseCase)
+	authenticateUserController := controllers.NewAuthenticateUserController(authenticateUserUseCase)
 
 	router := app.Group("/auth")
 	{
 		router.POST("/register", registerUserController.Handle)
+		router.POST("/authenticate", authenticateUserController.Handle)
 	}
 }

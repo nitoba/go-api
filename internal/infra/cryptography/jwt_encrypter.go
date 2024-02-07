@@ -22,7 +22,9 @@ func (j *JWTEncrypter) Encrypt(payload map[string]interface{}) string {
 		tok.Set(k, v)
 	}
 
-	signed, err := jwt.Sign(tok, jwt.WithKey(jwa.HS256, configs.JWTSecret))
+	tok.Set(jwt.ExpirationKey, configs.JWTExpiresIn)
+
+	signed, err := jwt.Sign(tok, jwt.WithKey(jwa.HS256, []byte(configs.JWTSecret)))
 
 	if err != nil {
 		fmt.Printf("failed to sign token: %s\n", err)
@@ -48,4 +50,8 @@ func (f *JWTEncrypter) Verify(token string) (map[string]interface{}, error) {
 		"sub": sub,
 		"exp": exp,
 	}, err
+}
+
+func NewJWTEncrypter() *JWTEncrypter {
+	return &JWTEncrypter{}
 }
