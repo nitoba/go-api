@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,17 @@ type CreateProductRequest struct {
 func (r *CreateProductController) Handle(c *gin.Context) {
 	var body CreateProductRequest
 	c.Bind(&body)
+
+	userId := c.GetString("user_id")
+
+	if userId == "" {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+
+	fmt.Printf("User ID: %s", userId)
 
 	if !validations.SendBadRequestValidation(body, c) {
 		return

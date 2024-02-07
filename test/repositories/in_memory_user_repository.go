@@ -20,3 +20,13 @@ func (r *InMemoryUserRepository) FindByEmail(email string) (*entity.User, error)
 
 	return nil, nil
 }
+
+func (r *InMemoryUserRepository) FindByID(id string) (*entity.User, error) {
+	for _, user := range r.Users {
+		if user.ID.String() == id {
+			return user, nil
+		}
+	}
+
+	return nil, nil
+}

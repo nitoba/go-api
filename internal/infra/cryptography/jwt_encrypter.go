@@ -2,6 +2,8 @@ package cryptography
 
 import (
 	"fmt"
+	"log"
+	"time"
 
 	"github.com/lestrrat-go/jwx/v2/jwa"
 	"github.com/lestrrat-go/jwx/v2/jwt"
@@ -22,7 +24,14 @@ func (j *JWTEncrypter) Encrypt(payload map[string]interface{}) string {
 		tok.Set(k, v)
 	}
 
-	tok.Set(jwt.ExpirationKey, configs.JWTExpiresIn)
+	timeIsString := fmt.Sprintf("%vs", configs.JWTExpiresIn)
+
+	timeExpiry, err := time.ParseDuration(timeIsString)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tok.Set(jwt.ExpirationKey, time.Now().Add(timeExpiry).Unix())
 
 	signed, err := jwt.Sign(tok, jwt.WithKey(jwa.HS256, []byte(configs.JWTSecret)))
 
@@ -36,7 +45,7 @@ func (j *JWTEncrypter) Encrypt(payload map[string]interface{}) string {
 
 func (f *JWTEncrypter) Verify(token string) (map[string]interface{}, error) {
 	configs := configs.GetConfig()
-	verifiedToken, err := jwt.ParseString(token, jwt.WithKey(jwa.HS256, configs.JWTSecret))
+	verifiedToken, err := jwt.Parse([]byte(token), jwt.WithKey(jwa.HS256, []byte(configs.JWTSecret)))
 
 	if err != nil {
 		fmt.Printf("failed to parse token: %s\n", err)
