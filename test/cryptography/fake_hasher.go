@@ -13,5 +13,5 @@ func (f *FakeHasher) Hash(text string) (string, error) {
 }
 
 func (f *FakeHasher) Compare(text string, hash string) bool {
-	return strings.Contains(text, "hashed:")
+	return strings.Contains(hash, "hashed:")
 }

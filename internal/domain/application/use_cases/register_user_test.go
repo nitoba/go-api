@@ -10,37 +10,45 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var userRepository *repositories.InMemoryUserRepository
-var hashGenerator *cryptography_test.FakeHasher
+type TestRegisterUseCaseConfig struct {
+	sut            *RegisterUseCase
+	userRepository *repositories.InMemoryUserRepository
+	hashGenerator  *cryptography_test.FakeHasher
+}
 
-func makeSut() *RegisterUseCase {
-	userRepository = &repositories.InMemoryUserRepository{}
-	hashGenerator = &cryptography_test.FakeHasher{}
-	return CreateRegisterUseCase(userRepository, hashGenerator)
+func makeRegisterUseCase() TestRegisterUseCaseConfig {
+	userRepository := &repositories.InMemoryUserRepository{}
+	hashGenerator := &cryptography_test.FakeHasher{}
+	sut := CreateRegisterUseCase(userRepository, hashGenerator)
+
+	return TestRegisterUseCaseConfig{
+		sut:            sut,
+		userRepository: userRepository,
+		hashGenerator:  hashGenerator,
+	}
 }
 
 func TestRegisterUseCase(t *testing.T) {
-
 	t.Run("Should be able to register a new user", func(t *testing.T) {
-		sut := makeSut()
+		usecase := makeRegisterUseCase()
 
-		res := sut.Execute(RegisterUseCaseRequest{
+		res := usecase.sut.Execute(RegisterUseCaseRequest{
 			Name:     "John Doe",
 			Email:    "john.doe@gmail.com",
 			Password: "password",
 		})
 
 		assert.Nil(t, res)
-		assert.Equal(t, userRepository.Users[0].Password, "hashed:password")
+		assert.Equal(t, usecase.userRepository.Users[0].Password, "hashed:password")
 	})
 
 	t.Run("Should not be able to register a new user if already exists", func(t *testing.T) {
-		sut := makeSut()
+		usecase := makeRegisterUseCase()
 
 		user := factories.MakeUser(map[string]interface{}{"email": "john.doe@gmail.com"})
-		userRepository.Users = append(userRepository.Users, user)
+		usecase.userRepository.Users = append(usecase.userRepository.Users, user)
 
-		res := sut.Execute(RegisterUseCaseRequest{
+		res := usecase.sut.Execute(RegisterUseCaseRequest{
 			Name:     "John Doe",
 			Email:    "john.doe@gmail.com",
 			Password: "password",

@@ -35,7 +35,9 @@ func (c *AuthenticateUseCase) Execute(request AuthenticateUseCaseRequest) (*Auth
 
 	// TODO: Generate a token JWT and return it
 
-	return nil, err
+	return &AuthenticateUseCaseResponse{
+		Token: "token",
+	}, nil
 }
 
 func NewAuthenticate(userRepository repositories.UserRepository, cryptography cryptography.HashComparer) *AuthenticateUseCase {
