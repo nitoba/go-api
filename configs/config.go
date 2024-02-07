@@ -1,7 +1,6 @@
 package configs
 
 import (
-	"github.com/go-chi/jwtauth"
 	"github.com/spf13/viper"
 )
 
@@ -25,7 +24,6 @@ type conf struct {
 	// JWT configuration
 	JWTSecret    string `mapstructure:"JWT_SECRET"`
 	JWTExpiresIn int    `mapstructure:"JWT_EXPIRES_IN"`
-	TokenAuth    *jwtauth.JWTAuth
 }
 
 func LoadConfig(path ...string) (*conf, error) {
@@ -52,9 +50,6 @@ func LoadConfig(path ...string) (*conf, error) {
 		logger.Errorf("Error to reading configs: %v", err)
 		panic(err)
 	}
-
-	config.TokenAuth = jwtauth.New("HS256", []byte(config.JWTSecret), nil)
-
 	return config, err
 }
 
