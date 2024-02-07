@@ -14,8 +14,6 @@ func initializeSQLite() (*gorm.DB, error) {
 	dbPath := "./internal/infra/database/sqlite"
 	dbAbsolutePath := dbPath + "/dev.db"
 
-	println(dbAbsolutePath)
-
 	// Check if the database file exists
 	_, err := os.Stat(dbAbsolutePath)
 	if os.IsNotExist(err) {

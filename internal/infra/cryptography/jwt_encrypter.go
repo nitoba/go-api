@@ -24,15 +24,16 @@ func (j *JWTEncrypter) Encrypt(payload map[string]interface{}) string {
 		tok.Set(k, v)
 	}
 
-	timeIsString := fmt.Sprintf("%vs", configs.JWTExpiresIn)
+	expiresInSeconds := fmt.Sprintf("%vs", configs.JWTExpiresIn)
 
-	timeExpiry, err := time.ParseDuration(timeIsString)
+	timeExpiry, err := time.ParseDuration(expiresInSeconds)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	tok.Set(jwt.ExpirationKey, time.Now().Add(timeExpiry).Unix())
 
+	// TODO: Change implements the RS256 algorithm
 	signed, err := jwt.Sign(tok, jwt.WithKey(jwa.HS256, []byte(configs.JWTSecret)))
 
 	if err != nil {

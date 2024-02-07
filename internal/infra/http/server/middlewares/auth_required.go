@@ -10,6 +10,12 @@ import (
 	"github.com/nitoba/go-api/internal/infra/database/gorm/repositories"
 )
 
+func sendUnauthorizedResponse(c *gin.Context, msg string) {
+	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+		"message": msg,
+	})
+}
+
 func AuthRequired() gin.HandlerFunc {
 	db := gorm.GetDB()
 	jwtEncrypter := cryptography.NewJWTEncrypter()
@@ -18,9 +24,7 @@ func AuthRequired() gin.HandlerFunc {
 		authorization := c.GetHeader("Authorization")
 
 		if authorization == "" || !strings.Contains(authorization, "Bearer") {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"message": "Unauthorized",
-			})
+			sendUnauthorizedResponse(c, "Token Required")
 			return
 		}
 
@@ -29,9 +33,7 @@ func AuthRequired() gin.HandlerFunc {
 		payload, err := jwtEncrypter.Verify(token)
 
 		if err != nil {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"message": "Unauthorized",
-			})
+			sendUnauthorizedResponse(c, "Invalid token")
 			return
 		}
 
@@ -40,9 +42,7 @@ func AuthRequired() gin.HandlerFunc {
 		user, err := userRepository.FindByID(userID)
 
 		if err != nil || user == nil {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"message": "Unauthorized",
-			})
+			sendUnauthorizedResponse(c, "Unauthorized")
 			return
 		}
 		c.Set("user_id", userID)
