@@ -20,6 +20,7 @@ func main() {
 	err = gorm.Connect()
 
 	if err != nil {
+		logger.Errorf("error to connect with database: %v", err)
 		panic(err)
 	}
 
