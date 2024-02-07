@@ -1,64 +1,36 @@
 package gorm
 
 import (
-	"fmt"
-
 	"github.com/nitoba/go-api/configs"
-	"github.com/nitoba/go-api/internal/infra/database/gorm/models"
-	"gorm.io/driver/postgres"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
-var DBInstance *gorm.DB
+var db *gorm.DB
 
-func open() error {
-	if configs.Config.DBDriver == "sqlite" {
-		return connectWithSqlite()
+func setupDB() error {
+	config := configs.GetConfig()
+	if config.DBDriver == "sqlite" {
+		database, err := initializeSQLite()
+		if err != nil {
+			return err
+		}
+		db = database
+		return nil
 	}
 
-	if configs.Config.DBDriver == "postgres" {
-		return connectWithPostgres()
+	if config.DBDriver == "postgres" {
+		return initializePostgres()
 	}
 	panic("unsupported database driver")
 }
 
-func connectWithSqlite() error {
-	db, err := gorm.Open(sqlite.Open("dev.db"), &gorm.Config{})
-	if err != nil {
+func Connect() error {
+	if err := setupDB(); err != nil {
 		return err
 	}
-	DBInstance = db
-
 	return nil
 }
 
-func connectWithPostgres() error {
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		configs.Config.DBHost, configs.Config.DBPort, configs.Config.DBUser, configs.Config.DBPassword, configs.Config.DBName,
-	)
-
-	db, err := gorm.Open(postgres.Open(psqlInfo), &gorm.Config{})
-	if err != nil {
-		return err
-	}
-	DBInstance = db
-
-	return nil
-}
-
-func configureModels() error {
-	return DBInstance.AutoMigrate(&models.UserModel{}, &models.ProductModel{})
-}
-
-func NewConnectionDB() error {
-	if err := open(); err != nil {
-		return err
-	}
-
-	if err := configureModels(); err != nil {
-		return nil
-	}
-
-	return nil
+func GetDB() *gorm.DB {
+	return db
 }

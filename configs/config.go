@@ -5,7 +5,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-var Config *conf
+var (
+	config *conf
+	logger *Logger
+)
 
 type conf struct {
 	// DB configuration
@@ -26,10 +29,11 @@ type conf struct {
 }
 
 func LoadConfig(path ...string) (*conf, error) {
+	logger := GetLogger("configs")
 	viper.SetConfigName("app_config")
 	viper.SetConfigType("env")
 	if len(path) == 0 {
-		println("Test environment")
+		logger.Warn("Running in test environment...")
 		viper.SetConfigFile(".env")
 	} else {
 		viper.SetConfigFile(path[0])
@@ -39,15 +43,27 @@ func LoadConfig(path ...string) (*conf, error) {
 
 	err := viper.ReadInConfig()
 	if err != nil {
+		logger.Errorf("Error to reading configs: %v", err)
 		panic(err)
 	}
 
-	err = viper.Unmarshal(&Config)
+	err = viper.Unmarshal(&config)
 	if err != nil {
+		logger.Errorf("Error to reading configs: %v", err)
 		panic(err)
 	}
 
-	Config.TokenAuth = jwtauth.New("HS256", []byte(Config.JWTSecret), nil)
+	config.TokenAuth = jwtauth.New("HS256", []byte(config.JWTSecret), nil)
 
-	return Config, err
+	return config, err
+}
+
+func GetLogger(p string) *Logger {
+	// Initialize Logger
+	logger = NewLogger(p)
+	return logger
+}
+
+func GetConfig() *conf {
+	return config
 }

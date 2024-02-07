@@ -9,13 +9,15 @@ import (
 )
 
 func main() {
+	logger := configs.GetLogger("main")
 	conf, err := configs.LoadConfig()
 
 	if err != nil {
+		logger.Errorf("error loading config: %v", err)
 		panic(err)
 	}
 
-	err = gorm.NewConnectionDB()
+	err = gorm.Connect()
 
 	if err != nil {
 		panic(err)

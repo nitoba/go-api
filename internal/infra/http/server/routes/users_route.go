@@ -10,8 +10,9 @@ import (
 )
 
 func UsersRouter(e *echo.Echo) {
+	db := gorm.GetDB()
 	bcryptHasher := cryptography.CreateBCryptHasher()
-	userRepository := repositories.NewUserRepository(gorm.DBInstance)
+	userRepository := repositories.NewUserRepository(db)
 	registerUserUseCase := usecases.CreateRegisterUseCase(userRepository, bcryptHasher)
 	registerUserController := controllers.CreateRegisterUserController(registerUserUseCase)
 
