@@ -1,6 +1,6 @@
 package repositories
 
-import "github.com/nitoba/apis/internal/domain/enterprise/entity"
+import "github.com/nitoba/go-api/internal/domain/enterprise/entity"
 
 type ProductRepository interface {
 	Create(product *entity.Product) error

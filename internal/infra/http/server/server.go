@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/labstack/echo"
-	"github.com/nitoba/apis/internal/infra/http/server/routes"
+	"github.com/nitoba/go-api/internal/infra/http/server/routes"
 )
 
 func Setup() *echo.Echo {

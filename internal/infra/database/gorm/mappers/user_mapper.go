@@ -3,9 +3,9 @@ package mappers
 import (
 	"time"
 
-	"github.com/nitoba/apis/internal/domain/enterprise/entity"
-	"github.com/nitoba/apis/internal/infra/database/gorm/models"
-	pkg "github.com/nitoba/apis/pkg/entity"
+	"github.com/nitoba/go-api/internal/domain/enterprise/entity"
+	"github.com/nitoba/go-api/internal/infra/database/gorm/models"
+	pkg "github.com/nitoba/go-api/pkg/entity"
 )
 
 func ToUserEntity(u *models.UserModel) *entity.User {

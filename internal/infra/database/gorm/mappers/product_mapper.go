@@ -1,9 +1,9 @@
 package mappers
 
 import (
-	"github.com/nitoba/apis/internal/domain/enterprise/entity"
-	"github.com/nitoba/apis/internal/infra/database/gorm/models"
-	pkg "github.com/nitoba/apis/pkg/entity"
+	"github.com/nitoba/go-api/internal/domain/enterprise/entity"
+	"github.com/nitoba/go-api/internal/infra/database/gorm/models"
+	pkg "github.com/nitoba/go-api/pkg/entity"
 )
 
 func ToProductEntity(u *models.ProductModel) *entity.Product {

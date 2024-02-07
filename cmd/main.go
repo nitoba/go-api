@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/nitoba/apis/configs"
-	"github.com/nitoba/apis/internal/infra/database/gorm"
-	"github.com/nitoba/apis/internal/infra/http/server"
+	"github.com/nitoba/go-api/configs"
+	"github.com/nitoba/go-api/internal/infra/database/gorm"
+	"github.com/nitoba/go-api/internal/infra/http/server"
 )
 
 func main() {

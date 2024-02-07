@@ -3,9 +3,9 @@ package repositories
 import (
 	"errors"
 
-	"github.com/nitoba/apis/internal/domain/enterprise/entity"
-	"github.com/nitoba/apis/internal/infra/database/gorm/mappers"
-	"github.com/nitoba/apis/internal/infra/database/gorm/models"
+	"github.com/nitoba/go-api/internal/domain/enterprise/entity"
+	"github.com/nitoba/go-api/internal/infra/database/gorm/mappers"
+	"github.com/nitoba/go-api/internal/infra/database/gorm/models"
 	"gorm.io/gorm"
 )
 

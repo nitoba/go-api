@@ -3,8 +3,8 @@ package repositories
 import (
 	"testing"
 
-	"github.com/nitoba/apis/internal/infra/database/gorm/models"
-	"github.com/nitoba/apis/test/factories"
+	"github.com/nitoba/go-api/internal/infra/database/gorm/models"
+	"github.com/nitoba/go-api/test/factories"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

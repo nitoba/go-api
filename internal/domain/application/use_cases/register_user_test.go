@@ -3,10 +3,10 @@ package usecases
 import (
 	"testing"
 
-	usecases_errors "github.com/nitoba/apis/internal/domain/application/use_cases/errors"
-	cryptography_test "github.com/nitoba/apis/test/cryptography"
-	"github.com/nitoba/apis/test/factories"
-	"github.com/nitoba/apis/test/repositories"
+	usecases_errors "github.com/nitoba/go-api/internal/domain/application/use_cases/errors"
+	cryptography_test "github.com/nitoba/go-api/test/cryptography"
+	"github.com/nitoba/go-api/test/factories"
+	"github.com/nitoba/go-api/test/repositories"
 	"github.com/stretchr/testify/assert"
 )
 

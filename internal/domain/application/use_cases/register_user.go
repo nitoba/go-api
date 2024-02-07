@@ -1,10 +1,10 @@
 package usecases
 
 import (
-	"github.com/nitoba/apis/internal/domain/application/cryptography"
-	"github.com/nitoba/apis/internal/domain/application/repositories"
-	usecases_errors "github.com/nitoba/apis/internal/domain/application/use_cases/errors"
-	"github.com/nitoba/apis/internal/domain/enterprise/entity"
+	"github.com/nitoba/go-api/internal/domain/application/cryptography"
+	"github.com/nitoba/go-api/internal/domain/application/repositories"
+	usecases_errors "github.com/nitoba/go-api/internal/domain/application/use_cases/errors"
+	"github.com/nitoba/go-api/internal/domain/enterprise/entity"
 )
 
 type RegisterUseCaseRequest struct {

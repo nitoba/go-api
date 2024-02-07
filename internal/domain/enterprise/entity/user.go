@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"github.com/nitoba/apis/pkg/entity"
+	"github.com/nitoba/go-api/pkg/entity"
 )
 
 type User struct {

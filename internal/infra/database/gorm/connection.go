@@ -3,8 +3,8 @@ package gorm
 import (
 	"fmt"
 
-	"github.com/nitoba/apis/configs"
-	"github.com/nitoba/apis/internal/infra/database/gorm/models"
+	"github.com/nitoba/go-api/configs"
+	"github.com/nitoba/go-api/internal/infra/database/gorm/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

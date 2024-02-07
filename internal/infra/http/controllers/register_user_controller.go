@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	usecases "github.com/nitoba/apis/internal/domain/application/use_cases"
-	usecases_errors "github.com/nitoba/apis/internal/domain/application/use_cases/errors"
+	usecases "github.com/nitoba/go-api/internal/domain/application/use_cases"
+	usecases_errors "github.com/nitoba/go-api/internal/domain/application/use_cases/errors"
 )
 
 type RegisterUserController struct {

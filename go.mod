@@ -1,4 +1,4 @@
-module github.com/nitoba/apis
+module github.com/nitoba/go-api
 
 go 1.21.6
 

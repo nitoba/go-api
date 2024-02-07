@@ -2,8 +2,8 @@ package factories
 
 import (
 	"github.com/jaswdr/faker"
-	"github.com/nitoba/apis/internal/domain/enterprise/entity"
-	pkg "github.com/nitoba/apis/pkg/entity"
+	"github.com/nitoba/go-api/internal/domain/enterprise/entity"
+	pkg "github.com/nitoba/go-api/pkg/entity"
 )
 
 func MakeUser(props ...map[string]interface{}) *entity.User {

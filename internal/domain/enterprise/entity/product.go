@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/nitoba/apis/pkg/entity"
+	"github.com/nitoba/go-api/pkg/entity"
 )
 
 var (
