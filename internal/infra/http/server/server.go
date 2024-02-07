@@ -8,5 +8,6 @@ import (
 func Setup() *gin.Engine {
 	r := gin.Default()
 	routes.AuthRouter(r)
+	routes.ProductRouter(r)
 	return r
 }

@@ -51,7 +51,7 @@ func Test_ProductRepositoryFindProductById(t *testing.T) {
 	err = productRepo.Create(product)
 	assert.Nil(t, err)
 
-	productFound, err := productRepo.FindById(product.ID.String())
+	productFound, err := productRepo.FindByID(product.ID.String())
 
 	assert.Nil(t, err)
 
@@ -72,7 +72,7 @@ func Test_ProductRepositoryShouldReturnAErrorIfNotFoundAProduct(t *testing.T) {
 
 	product := factories.MakeProduct()
 
-	_, err = productRepo.FindById(product.ID.String())
+	_, err = productRepo.FindByID(product.ID.String())
 
 	assert.Error(t, err)
 }

@@ -14,8 +14,8 @@ type ProductRepositoryGorm struct {
 	DB *gorm.DB
 }
 
-func NewProductRepository(db *gorm.DB) ProductRepositoryGorm {
-	return ProductRepositoryGorm{DB: db}
+func NewProductRepository(db *gorm.DB) *ProductRepositoryGorm {
+	return &ProductRepositoryGorm{DB: db}
 }
 
 func (r *ProductRepositoryGorm) Create(product *entity.Product) error {
@@ -23,7 +23,7 @@ func (r *ProductRepositoryGorm) Create(product *entity.Product) error {
 	return r.DB.Create(&productModel).Error
 }
 
-func (r *ProductRepositoryGorm) FindById(id string) (*entity.Product, error) {
+func (r *ProductRepositoryGorm) FindByID(id string) (*entity.Product, error) {
 	var productModel models.ProductModel
 
 	err := r.DB.Model(&productModel).Where("id = ?", id).First(&productModel).Error

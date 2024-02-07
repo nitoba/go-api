@@ -14,7 +14,7 @@ func (r *InMemoryProductRepository) Create(product *entity.Product) error {
 func (r *InMemoryProductRepository) FindByID(id string) (*entity.Product, error) {
 	return nil, nil
 }
-func (r *InMemoryProductRepository) Find(page, limit int, sort string) (*[]entity.Product, error) {
+func (r *InMemoryProductRepository) Find(page, limit int, sort string) ([]*entity.Product, error) {
 	return nil, nil
 }
 func (r *InMemoryProductRepository) Delete(id string) error {
