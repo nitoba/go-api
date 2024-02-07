@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/labstack/echo"
+	"github.com/gin-gonic/gin"
 	usecases "github.com/nitoba/go-api/internal/domain/application/use_cases"
 	"github.com/nitoba/go-api/internal/infra/cryptography"
 	"github.com/nitoba/go-api/internal/infra/database/gorm"
@@ -9,12 +9,15 @@ import (
 	"github.com/nitoba/go-api/internal/infra/http/controllers"
 )
 
-func UsersRouter(e *echo.Echo) {
+func UsersRouter(app *gin.Engine) {
 	db := gorm.GetDB()
 	bcryptHasher := cryptography.CreateBCryptHasher()
 	userRepository := repositories.NewUserRepository(db)
 	registerUserUseCase := usecases.CreateRegisterUseCase(userRepository, bcryptHasher)
 	registerUserController := controllers.CreateRegisterUserController(registerUserUseCase)
 
-	e.POST("/users", registerUserController.Handle)
+	router := app.Group("/users")
+	{
+		router.POST("/", registerUserController.Handle)
+	}
 }

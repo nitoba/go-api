@@ -1,12 +1,12 @@
 package server
 
 import (
-	"github.com/labstack/echo"
+	"github.com/gin-gonic/gin"
 	"github.com/nitoba/go-api/internal/infra/http/server/routes"
 )
 
-func Setup() *echo.Echo {
-	e := echo.New()
-	routes.UsersRouter(e)
-	return e
+func Setup() *gin.Engine {
+	r := gin.Default()
+	routes.UsersRouter(r)
+	return r
 }

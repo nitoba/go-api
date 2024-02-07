@@ -25,5 +25,5 @@ func main() {
 
 	server := server.Setup()
 
-	server.Logger.Fatal(server.Start(fmt.Sprintf(":%s", conf.WebServerPort)))
+	server.Run(fmt.Sprintf(":%s", conf.WebServerPort))
 }
