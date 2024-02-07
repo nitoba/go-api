@@ -14,17 +14,20 @@ type TestAuthenticateUseCaseConfig struct {
 	sut            *AuthenticateUseCase
 	userRepository *repositories.InMemoryUserRepository
 	fakeHasher     *cryptography_test.FakeHasher
+	fakeEncrypter  *cryptography_test.FakeEncrypter
 }
 
 func makeAuthenticateUseCase() TestAuthenticateUseCaseConfig {
 	userRepository := &repositories.InMemoryUserRepository{}
 	hashComparer := &cryptography_test.FakeHasher{}
-	sut := NewAuthenticate(userRepository, hashComparer)
+	fakeEncrypter := &cryptography_test.FakeEncrypter{}
+	sut := NewAuthenticate(userRepository, hashComparer, fakeEncrypter)
 
 	return TestAuthenticateUseCaseConfig{
 		sut:            sut,
 		userRepository: userRepository,
 		fakeHasher:     hashComparer,
+		fakeEncrypter:  fakeEncrypter,
 	}
 }
 
@@ -42,6 +45,8 @@ func TestAuthenticateUseCase(t *testing.T) {
 			Email:    "test@example.com",
 			Password: "password",
 		})
+
+		println("Token: ", res.Token)
 
 		assert.Nil(t, err)
 		assert.NotNil(t, res)

@@ -9,6 +9,7 @@ import (
 type AuthenticateUseCase struct {
 	userRepository repositories.UserRepository
 	cryptography   cryptography.HashComparer
+	encrypter      cryptography.Encrypter
 }
 
 type AuthenticateUseCaseRequest struct {
@@ -33,16 +34,17 @@ func (c *AuthenticateUseCase) Execute(request AuthenticateUseCaseRequest) (*Auth
 		return nil, usecases_errors.ErrWrongCredentials
 	}
 
-	// TODO: Generate a token JWT and return it
+	token := c.encrypter.Encrypt(map[string]interface{}{"sub": user.ID.String()})
 
 	return &AuthenticateUseCaseResponse{
-		Token: "token",
+		Token: token,
 	}, nil
 }
 
-func NewAuthenticate(userRepository repositories.UserRepository, cryptography cryptography.HashComparer) *AuthenticateUseCase {
+func NewAuthenticate(userRepository repositories.UserRepository, cryptography cryptography.HashComparer, encrypter cryptography.Encrypter) *AuthenticateUseCase {
 	return &AuthenticateUseCase{
 		userRepository: userRepository,
 		cryptography:   cryptography,
+		encrypter:      encrypter,
 	}
 }
