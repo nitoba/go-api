@@ -1,12 +1,10 @@
 package controllers
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	usecases "github.com/nitoba/go-api/internal/domain/application/use_cases"
-	usecases_errors "github.com/nitoba/go-api/internal/domain/application/use_cases/errors"
 	"github.com/nitoba/go-api/internal/infra/http/validations"
 )
 
@@ -32,8 +30,8 @@ func (r *AuthenticateUserController) Handle(c *gin.Context) {
 		Password: body.Password,
 	})
 
-	if errors.Is(err, usecases_errors.ErrWrongCredentials) {
-		c.JSON(http.StatusBadRequest, gin.H{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
 		})
 		return
