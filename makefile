@@ -1,18 +1,19 @@
-# prisma-migrate-dev:
-# 	go run github.com/steebchen/prisma-client-go migrate dev
-
-
-# prisma-generate:
-# 	go run github.com/steebchen/prisma-client-go generate
-
-
-.PHONY: default run build tests docs clean
+.PHONY: default run build tests docs clean prisma-migrate-dev prisma-generate prisma-studio
 # Variables
 APP_NAME=apis
 APP_ENTRY_POINT=./cmd/main.go
 
 # Tasks
 default: run
+
+prisma-migrate-dev:
+	@go run github.com/steebchen/prisma-client-go migrate dev
+
+prisma-generate:
+	@go run github.com/steebchen/prisma-client-go generate
+
+prisma-studio:
+	@go run github.com/steebchen/prisma-client-go studio
 
 run:
 	@go run $(APP_ENTRY_POINT)

@@ -2,14 +2,14 @@ version: "3.7"
 
 services:
   db:
-    container_name: todo_list_go_db
+    container_name: api_go_db
     image: bitnami/postgresql:latest
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker
-      POSTGRES_DB: todo_list
+      POSTGRES_DB: api_go
     volumes:
       - postgres_data:/bitnami/postgresql
 
