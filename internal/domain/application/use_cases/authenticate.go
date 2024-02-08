@@ -13,12 +13,12 @@ type AuthenticateUseCase struct {
 }
 
 type AuthenticateUseCaseRequest struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string
+	Password string
 }
 
 type AuthenticateUseCaseResponse struct {
-	Token string `json:"token"`
+	Token string
 }
 
 func (c *AuthenticateUseCase) Execute(request AuthenticateUseCaseRequest) (*AuthenticateUseCaseResponse, error) {
