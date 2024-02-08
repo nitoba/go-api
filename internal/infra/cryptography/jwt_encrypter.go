@@ -59,7 +59,7 @@ func (f *JWTEncrypter) Verify(token string) (map[string]interface{}, error) {
 	return map[string]interface{}{
 		"sub": sub,
 		"exp": exp,
-	}, err
+	}, nil
 }
 
 func NewJWTEncrypter() *JWTEncrypter {

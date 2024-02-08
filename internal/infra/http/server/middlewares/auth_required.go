@@ -5,9 +5,8 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nitoba/go-api/internal/infra/cryptography"
-	"github.com/nitoba/go-api/internal/infra/database/gorm"
-	"github.com/nitoba/go-api/internal/infra/database/gorm/repositories"
+	"github.com/nitoba/go-api/internal/domain/application/cryptography"
+	"github.com/nitoba/go-api/internal/domain/application/repositories"
 )
 
 func sendUnauthorizedResponse(c *gin.Context, msg string) {
@@ -16,10 +15,7 @@ func sendUnauthorizedResponse(c *gin.Context, msg string) {
 	})
 }
 
-func AuthRequired() gin.HandlerFunc {
-	db := gorm.GetDB()
-	jwtEncrypter := cryptography.NewJWTEncrypter()
-	userRepository := repositories.NewUserRepository(db)
+func AuthRequired(encrypter cryptography.Encrypter, userRepository repositories.UserRepository) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authorization := c.GetHeader("Authorization")
 
@@ -30,7 +26,7 @@ func AuthRequired() gin.HandlerFunc {
 
 		token := strings.TrimPrefix(authorization, "Bearer ")
 
-		payload, err := jwtEncrypter.Verify(token)
+		payload, err := encrypter.Verify(token)
 
 		if err != nil {
 			sendUnauthorizedResponse(c, "Invalid token")
