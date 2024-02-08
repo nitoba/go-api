@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/nitoba/go-api/configs"
-	"github.com/nitoba/go-api/internal/infra/database/gorm"
+	"github.com/nitoba/go-api/internal/infra/database/prisma"
 	"github.com/nitoba/go-api/internal/infra/http/server"
 )
 
@@ -17,7 +17,7 @@ func main() {
 		panic(err)
 	}
 
-	err = gorm.Connect()
+	err = prisma.Connect()
 
 	if err != nil {
 		logger.Errorf("error to connect with database: %v", err)
