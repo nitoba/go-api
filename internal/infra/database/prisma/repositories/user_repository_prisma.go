@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/nitoba/go-api/internal/domain/enterprise/entity"
 	"github.com/nitoba/go-api/internal/infra/database/prisma/mappers"
@@ -22,8 +21,6 @@ func (r *UserRepositoryPrisma) Create(user *entity.User) error {
 		db.User.Password.Set(user.Password),
 	).Exec(ctx); err != nil && u == nil {
 		return err
-	} else {
-		fmt.Printf("User created: %v\n", user)
 	}
 
 	return nil
