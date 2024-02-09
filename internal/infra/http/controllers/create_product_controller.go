@@ -37,7 +37,7 @@ func (r *CreateProductController) Handle(c *gin.Context) {
 		return
 	}
 
-	err := r.useCase.Execute(body.Name, body.Price)
+	err := r.useCase.Execute(body.Name, body.Price, userId)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

@@ -6,7 +6,7 @@ type InMemoryProductRepository struct {
 	Products []*entity.Product
 }
 
-func (r *InMemoryProductRepository) Create(product *entity.Product) error {
+func (r *InMemoryProductRepository) Create(product *entity.Product, userId string) error {
 	r.Products = append(r.Products, product)
 	return nil
 }
