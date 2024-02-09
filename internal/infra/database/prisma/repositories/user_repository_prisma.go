@@ -1,8 +1,7 @@
 package repositories
 
 import (
-	"context"
-
+	"github.com/nitoba/go-api/configs"
 	"github.com/nitoba/go-api/internal/domain/enterprise/entity"
 	"github.com/nitoba/go-api/internal/infra/database/prisma/mappers"
 	"github.com/nitoba/go-api/prisma/db"
@@ -12,14 +11,13 @@ type UserRepositoryPrisma struct {
 	db *db.PrismaClient
 }
 
-var ctx = context.Background()
-
 func (r *UserRepositoryPrisma) Create(user *entity.User) error {
+	var config = configs.GetConfig()
 	if u, err := r.db.User.CreateOne(
 		db.User.Name.Set(user.Name),
 		db.User.Email.Set(user.Email),
 		db.User.Password.Set(user.Password),
-	).Exec(ctx); err != nil && u == nil {
+	).Exec(config.Ctx); err != nil && u == nil {
 		return err
 	}
 
@@ -27,7 +25,8 @@ func (r *UserRepositoryPrisma) Create(user *entity.User) error {
 }
 
 func (r *UserRepositoryPrisma) FindByEmail(email string) (*entity.User, error) {
-	u, err := r.db.User.FindUnique(db.User.Email.Equals(email)).Exec(ctx)
+	var config = configs.GetConfig()
+	u, err := r.db.User.FindUnique(db.User.Email.Equals(email)).Exec(config.Ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +35,8 @@ func (r *UserRepositoryPrisma) FindByEmail(email string) (*entity.User, error) {
 }
 
 func (r *UserRepositoryPrisma) FindByID(id string) (*entity.User, error) {
-	u, err := r.db.User.FindUnique(db.User.ID.Equals(id)).Exec(ctx)
+	var config = configs.GetConfig()
+	u, err := r.db.User.FindUnique(db.User.ID.Equals(id)).Exec(config.Ctx)
 	if err != nil {
 		return nil, err
 	}

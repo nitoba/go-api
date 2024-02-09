@@ -1,6 +1,8 @@
 package configs
 
 import (
+	"context"
+
 	"github.com/spf13/viper"
 )
 
@@ -24,6 +26,7 @@ type conf struct {
 	// JWT configuration
 	JWTSecret    string `mapstructure:"JWT_SECRET"`
 	JWTExpiresIn int    `mapstructure:"JWT_EXPIRES_IN"`
+	Ctx          context.Context
 }
 
 func LoadConfig(path ...string) (*conf, error) {
@@ -50,6 +53,7 @@ func LoadConfig(path ...string) (*conf, error) {
 		logger.Errorf("Error to reading configs: %v", err)
 		panic(err)
 	}
+	config.Ctx = context.Background()
 	return config, err
 }
 
