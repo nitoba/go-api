@@ -4,16 +4,17 @@ import (
 	"github.com/gin-gonic/gin"
 	usecases "github.com/nitoba/go-api/internal/domain/application/use_cases"
 	"github.com/nitoba/go-api/internal/infra/cryptography"
-	"github.com/nitoba/go-api/internal/infra/database/gorm"
-	"github.com/nitoba/go-api/internal/infra/database/gorm/repositories"
+	"github.com/nitoba/go-api/internal/infra/database/prisma"
+	"github.com/nitoba/go-api/internal/infra/database/prisma/repositories"
 	"github.com/nitoba/go-api/internal/infra/http/controllers"
 )
 
 func AuthRouter(app *gin.Engine) {
-	db := gorm.GetDB()
+	db := prisma.GetDB()
+
 	jwtEncrypter := cryptography.NewJWTEncrypter()
 	bcryptHasher := cryptography.CreateBCryptHasher()
-	userRepository := repositories.NewUserRepository(db)
+	userRepository := repositories.NewUserRepositoryPrisma(db)
 
 	registerUserUseCase := usecases.CreateRegisterUseCase(userRepository, bcryptHasher)
 	authenticateUserUseCase := usecases.NewAuthenticate(userRepository, bcryptHasher, jwtEncrypter)

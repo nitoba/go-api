@@ -1,7 +1,7 @@
 datasource db {
     // could be postgresql or mysql
     provider = "postgresql"
-    url      = env("DATABASE_URL")
+    url      = "postgresql://docker:docker@localhost:5432/api_go?schema=public"
 }
 
 generator db {

@@ -10,21 +10,18 @@ import (
 
 func main() {
 	logger := configs.GetLogger("main")
-	conf, err := configs.LoadConfig()
-
-	if err != nil {
+	if _, err := configs.LoadConfig(); err != nil {
 		logger.Errorf("error loading config: %v", err)
 		panic(err)
 	}
 
-	err = prisma.Connect()
-
-	if err != nil {
+	if err := prisma.Connect(); err != nil {
 		logger.Errorf("error to connect with database: %v", err)
 		panic(err)
 	}
 
+	config := configs.GetConfig()
 	server := server.Setup()
 
-	server.Run(fmt.Sprintf(":%s", conf.WebServerPort))
+	server.Run(fmt.Sprintf(":%s", config.WebServerPort))
 }

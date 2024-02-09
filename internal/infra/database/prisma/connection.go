@@ -8,18 +8,15 @@ import (
 var database *db.PrismaClient
 
 func setupDB() error {
-	config := configs.GetConfig()
-	if config.DBDriver == "postgres" {
-		client := db.NewClient()
+	logger := configs.GetLogger("prisma")
+	logger.Info("connecting with postgres")
 
-		if err := client.Prisma.Connect(); err != nil {
-			return err
-		}
-
-		database = client
-
-		return nil
+	client := db.NewClient()
+	if err := client.Prisma.Connect(); err != nil {
+		return err
 	}
+
+	database = client
 	return nil
 }
 
