@@ -1,8 +1,6 @@
 package repositories
 
 import (
-	"fmt"
-
 	"github.com/nitoba/go-api/configs"
 	"github.com/nitoba/go-api/internal/domain/enterprise/entity"
 	"github.com/nitoba/go-api/internal/infra/database/prisma/mappers"
@@ -15,8 +13,6 @@ type UserRepositoryPrisma struct {
 
 func (r *UserRepositoryPrisma) Create(user *entity.User) error {
 	var config = configs.GetConfig()
-
-	fmt.Printf("user id: %v", user.ID.String())
 
 	if u, err := r.db.User.CreateOne(
 		db.User.Name.Set(user.Name),
